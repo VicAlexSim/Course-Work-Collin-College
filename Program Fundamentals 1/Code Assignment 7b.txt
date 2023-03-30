@@ -1,0 +1,331 @@
+CONSOLE OUTPUT/TESTING RESULTS: 
+
+Please enter the scorecard name: scorecard.txt
+
+ERROR: the scorecard scorecard.txt could not be opened
+
+-----------------------------------------------------------
+
+Please enter the scorecard name: scorecard1.txt
+
+Mirabella Jones's results:
+7.50, 8.80, 7.00, 8.10, 8.00, 9.80, 9.30, 8.90, 9.10, 9.00
+The highest score of 9.80 and the lowest score of 7.00 were
+dropped
+The average score is 8.59
+
+Ruth Mendez's results:
+9.80, 8.50, 6.00, 8.80, 8.60, 7.10, 7.80, 8.00, 7.20, 8.30
+The highest score of 9.80 and the lowest score of 6.00 were
+dropped
+The average score is 8.04
+
+Melvin Ingram's results:
+9.90, 7.30, 6.30, 7.00, 6.80, 6.20, 8.90, 9.50, 6.50, 6.00
+The highest score of 9.90 and the lowest score of 6.00 were
+dropped
+The average score is 7.31
+
+Tara Silva's results:
+8.10, 7.10, 9.40, 7.20, 9.20, 6.40, 9.50, 8.40, 6.70, 6.60
+The highest score of 9.50 and the lowest score of 6.40 were
+dropped
+The average score is 7.84
+
+Joann Gardner's results:
+6.90, 8.00, 8.70, 8.90, 9.10, 7.50, 8.20, 6.30, 8.40, 6.20
+The highest score of 9.10 and the lowest score of 6.20 were
+dropped
+The average score is 7.86
+
+Jeff Barnes's results:
+6.40, 7.20, 8.30, 8.60, 7.90, 6.00, 7.10, 6.70, 9.50, 9.90
+The highest score of 9.90 and the lowest score of 6.00 were
+dropped
+The average score is 7.71
+
+Lucille Dixon's results:
+9.50, 6.50, 9.30, 9.40, 8.50, 8.70, 6.20, 9.70, 8.70, 8.20
+The highest score of 9.70 and the lowest score of 6.20 were
+dropped
+The average score is 8.60
+
+Krista James's results:
+8.40, 9.40, 8.10, 6.30, 6.10, 8.60, 9.60, 9.10, 9.90, 8.80
+The highest score of 9.90 and the lowest score of 6.10 were
+dropped
+The average score is 8.54
+
+Naomi Sanders's results:
+7.00, 7.20, 8.70, 9.10, 9.60, 6.60, 9.40, 9.80, 8.40, 7.60
+The highest score of 9.80 and the lowest score of 6.60 were
+dropped
+The average score is 8.38
+
+Ricky McCarthy's results:
+9.80, 7.20, 9.00, 8.50, 6.20, 6.50, 9.10, 8.40, 8.10, 8.70
+The highest score of 9.80 and the lowest score of 6.20 were
+dropped
+The average score is 8.19
+
+-----------------------------------------------------------
+
+Please enter the scorecard name: scorecard2.txt
+
+Mirabella Jones's results:
+7.50, 8.80, 7.00, 8.10, 8.00, 9.80, 9.30, 8.90, 9.10, 9.00
+The highest score of 9.80 and the lowest score of 7.00 were
+dropped
+The average score is 8.59
+
+Ruth Mendez's results:
+9.80, 8.50, 6.00, 8.80, 8.60, 7.10, 7.80, 8.00, 7.20, 8.30
+The highest score of 9.80 and the lowest score of 6.00 were
+dropped
+The average score is 8.04
+
+Invalid scores
+Melvin Ingram is disqualified
+
+Tara Silva's results:
+8.10, 7.10, 9.40, 7.20, 9.20, 6.40, 9.50, 8.40, 6.70, 6.60
+The highest score of 9.50 and the lowest score of 6.40 were
+dropped
+The average score is 7.84
+
+Invalid scores
+Joann Gardner is disqualified
+
+Jeff Barnes's results:
+6.40, 7.20, 8.30, 8.60, 7.90, 6.00, 7.10, 6.70, 9.50, 9.90
+The highest score of 9.90 and the lowest score of 6.00 were
+dropped
+The average score is 7.71
+
+
+C++ SOURCE CODE:
+/*Athlete2.cpp: This program reads scores and name from a scorecard of athletes and finds 
+the highest and lowest scores for each and computes an average whilist printing all of it out in a neat fashion*/
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 12/4/21
+
+//Headers Included
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <string>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+//Global Constants defined
+const int MAX_ATHLETES = 10;
+const int MAX_SCORES = 10;
+const int MAX_SCORE_RANGE = 10;
+const int MIN_SCORE_RANGE = 0;
+const int END_PROGRAM = 0;
+const int SUBSCRIPT_ADJUSTMENT = 1;
+const int INDEX_STARTER = 0;
+const int HUNDREDTHS_PLACE = 2;
+const int EXIT_SUCCESSFUL = 0;
+const int EXIT_UNSUCCESSFUL = 1;
+const int STRING_OUTPUT_MAXIMUM = 1;
+const string errorFlag = "Error";
+
+
+//Arrays Declared for Reference
+string athleteNames[MAX_ATHLETES];
+double athleteScores[MAX_ATHLETES][MAX_SCORES];
+string error[MAX_ATHLETES];
+
+//Function prototypes declared
+int readFile(string fileName, string athleteNames[], double athleteScores[][MAX_SCORES], string error[], int MAX_ATHLETES);
+void processor(string athleteNames[], double athleteScores[][MAX_SCORES],  int MAX_ATHLETES);
+
+int main()
+{
+//Variable for string argument for function call defined
+string fileName = "";
+
+//Prompt for string input argument
+cout << "Please enter the scorecard name: ";
+cin >> fileName;
+cout << endl;
+
+//Function Calls
+readFile(fileName, athleteNames, athleteScores, error, MAX_ATHLETES);
+processor(athleteNames, athleteScores, MAX_ATHLETES);
+
+//End Program
+return END_PROGRAM;
+}
+
+//Successfully Reads Names and Scores and Puts them in their Respective Arrays
+int readFile(string fileName, string athleteNames[], double athleteScores[][MAX_SCORES], string error[], int MAX_ATHLETES) {
+
+    //Variables
+    int index = INDEX_STARTER;
+    string emptyString = "";
+
+    //Input File object declared
+    ifstream inputFile;
+
+    /* Input File Opened With Pass Through .txt File From First Parameter - see Function Main. */
+    inputFile.open(fileName);
+
+    /* Error checking if Input file is opened or not. Exits and outputs prompt if not. */
+    if(!inputFile){
+        cout << "ERROR: the scorecard " << fileName << " could not be opened";
+        exit(EXIT_SUCCESSFUL);
+    }
+
+    
+    if(inputFile) {
+        for(;index < MAX_ATHLETES; index++) {
+            //Reads the Names and Stores in athleteNames array
+            if(!getline(inputFile, athleteNames[index])) {
+                break;
+            }   
+                //Reads Scores and puts them in the athleteScores array
+                for(int index2 = INDEX_STARTER; index2 < MAX_SCORES && (inputFile >> athleteScores[index][index2]); index2++) {
+                    if(athleteScores[index][index2] >= MIN_SCORE_RANGE && athleteScores[index][index2] <= MAX_SCORE_RANGE){
+                        error[index] = emptyString;
+                    }
+                    
+                    //If it can't read the scores then an error flag is used as a conditional later on to output only error prompt
+                    else {
+                        error[index] = errorFlag; 
+                        return index;
+                        break;
+                    }
+                    
+                    
+                }
+            inputFile.ignore();
+        }
+    //Closes input file
+    inputFile.close();
+    }
+return index;
+}
+
+/*Unsuccessfully processes the arrays to find the lowest 
+and highest scores and excludes them from the average of the scores
+and outputs the strings needed to represent data*/
+void processor(string athleteNames[], double athleteScores[][MAX_SCORES], int MAX_ATHLETES) {
+
+    //Variables and constants declared or initialized
+    const double AVERAGE_DIVISOR = 8.00;
+    const int maxNumbersExcluded = 2;
+    double total[MAX_ATHLETES];
+    double average[MAX_ATHLETES];
+    double lowest[MAX_ATHLETES];
+    double highest[MAX_ATHLETES];
+
+    //Loop for finding the lowest scores and putting it in the lowest array 
+    for(int index = INDEX_STARTER; index < MAX_ATHLETES; index++) {
+
+        for(int index2 = INDEX_STARTER; index2 < MAX_SCORES; index2++) {
+            int lowestIndexComparitor = INDEX_STARTER;
+            if(athleteScores[index][index2] < athleteScores[index][lowestIndexComparitor]){
+                lowestIndexComparitor = index2;    
+                lowest[index] = athleteScores[index][index2];
+                continue;
+            }
+            else{
+                continue;
+            }
+        }
+    }
+    
+    //Loop for finding the highest scores and putting it in the highest array 
+    for(int index = INDEX_STARTER; index < MAX_ATHLETES; index++) {
+
+        for(int index2 = INDEX_STARTER; index2 < MAX_SCORES; index2++) {
+            int highestIndexComparitor = INDEX_STARTER;
+            if(athleteScores[index][index2] > athleteScores[index][highestIndexComparitor]){
+                highestIndexComparitor = index2;
+                highest[index] = athleteScores[index][index2];
+                continue;
+            }
+            else{
+                continue;
+            }
+            
+        }
+    }
+    
+    //Totaling loop and excludes the highest and lowest scores for each athlete
+    for(int index = INDEX_STARTER; index < MAX_ATHLETES; index++) {
+
+        for(int index2 = INDEX_STARTER; index2 < MAX_SCORES; index2++){
+            int numbersExcluded = INDEX_STARTER;
+
+            if(athleteScores[index][index2] != highest[index] && athleteScores[index][index2] != lowest[index]){
+                total[index] += athleteScores[index][index2];
+                continue;
+            }
+
+            else if(numbersExcluded < maxNumbersExcluded){
+                if(athleteScores[index][index2] == highest[index] || athleteScores[index][index2] == lowest[index]) {
+                numbersExcluded++;
+                continue;
+                }
+            }
+            
+            //If there is multiple same values of the highest or lowest values
+            else {
+                total[index] += athleteScores[index][index2];
+                continue;
+            }
+            
+        }
+        
+    }
+
+    //Loop to average each athlete's scores
+    for(int index = INDEX_STARTER; index < MAX_ATHLETES; index++){
+        //Variable declared/initialized
+        double mean = 0.00;
+        mean = total[index]/AVERAGE_DIVISOR;
+        average[index] = mean;
+    }
+
+    //Outputs the results of the calculations above and prints error messages if something wrong happened during calculation
+    for(int index = INDEX_STARTER; index < MAX_ATHLETES; index++) {
+        //Variable declared/initialized
+        int lineOneCounter = INDEX_STARTER;
+        for(int index2 = INDEX_STARTER; index2 < MAX_SCORES; index2++){
+            if(error[index] == "Error"){
+                break;
+            }
+            else if(error[index] == ""){
+                
+                if(lineOneCounter < STRING_OUTPUT_MAXIMUM){
+                    cout << athleteNames[index-SUBSCRIPT_ADJUSTMENT] << "'s results:" << endl;
+                    lineOneCounter++;
+                }
+                    //Prints each score
+                    cout << setprecision(HUNDREDTHS_PLACE) << athleteScores[index-SUBSCRIPT_ADJUSTMENT][index2-SUBSCRIPT_ADJUSTMENT] << ", ";
+                    continue;
+                }
+
+        }
+        //Error output if scores were not valid or reading/calculating it did not work
+        if(error[index] == "Error"){
+            cout << "Invalid scores \n" << athleteNames[index-SUBSCRIPT_ADJUSTMENT] << "is disqualified" << endl;
+            continue;
+        }
+        else if(error[index] == "") {
+            cout << setprecision(HUNDREDTHS_PLACE) << endl << "The highest score of " << highest[index-SUBSCRIPT_ADJUSTMENT] << " and the lowest score of " << lowest[index-SUBSCRIPT_ADJUSTMENT] << "were dropped " << endl;
+            cout << setprecision(HUNDREDTHS_PLACE) << "The average score is" << average[index-SUBSCRIPT_ADJUSTMENT] << endl << "\n";    
+        }
+    }
+}
+    
+
+
+    
+

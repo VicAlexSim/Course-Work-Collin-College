@@ -1,0 +1,121 @@
+CONSOLE OUTPUT/TESTING RESULTS:
+
+enter an odd size from 3 to 15: 10
+error: that's even!
+enter an odd size from 3 to 15: 1
+error: that's less than the min!
+enter an odd size from 3 to 15: 17
+error: that's greater than the max!
+enter an odd size from 3 to 15: 2
+error: that's even! that's less than the min!
+enter an odd size from 3 to 15: 16
+error: that's even! that's greater than the max!
+enter an odd size from 3 to 15: 3
+
+* 0 * 
+0 * 0 
+* 0 * 
+
+-------------------------------------------
+
+enter an odd size from 3 to 15: 13
+
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+0 * 0 * 0 * 0 * 0 * 0 * 0 
+* 0 * 0 * 0 * 0 * 0 * 0 * 
+
+
+
+C++ SOURCE CODE:
+
+//Stars&Zeroes.cpp: This Program Prints a table of alternating stars and zeroes via user inputted size of an odd number to generate the table and error checking displayed via specifically generated outputs
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 10/16/21
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <cmath>
+using namespace std;
+
+int main() {
+
+// Declare variables and constants with correct format and initialize if needed (initialization later if needed)
+string evenCase, lessCase, greaterCase, charOutput; 
+string errorMessageCombiner = "";
+int inputSize, rowColumn;
+int count = 0;
+const int LOWER_BOUND = 3, UPPER_BOUND = 15, COUNT_NUMBER = 1, EVEN_CHECKER = 2, ZERO = 0;
+
+
+// Output prompt to start user's input
+cout << "enter an odd size from 3 to 15: ";
+cin >> inputSize;
+
+
+/* 
+  This loop works by whenever your inputted number is not 0, and if it is not inside the bounds of the problem (inclusively between 3 and 15) it will calculate
+whether or not the value is even if when you divide by 2 it has a remainder of 0 or not, and if the value is less than the constant lower boundary or higher 
+than the constant higher boundary. Outputs the generated error checking message specific to the situation.
+*/
+while (inputSize != ZERO) {
+  if (inputSize < LOWER_BOUND || inputSize > UPPER_BOUND) {
+    if (inputSize % EVEN_CHECKER == ZERO) {
+      evenCase = "that's even! ";
+      errorMessageCombiner += evenCase;
+    }
+    if (inputSize < LOWER_BOUND) {
+      lessCase = "that's less than the min!";
+      errorMessageCombiner += lessCase;
+    }
+      if (inputSize > UPPER_BOUND) {
+        greaterCase = "that's greater than the max!";
+        errorMessageCombiner += greaterCase;
+      }
+    }
+    if (inputSize >= LOWER_BOUND && inputSize <= UPPER_BOUND) { // At this point in time it now checks if the value is WITHIN bounds
+      if (inputSize % EVEN_CHECKER == ZERO) { // And if it is even
+        evenCase = "that's even!";
+        errorMessageCombiner += evenCase; // errorMessageCombiner is an empty string that takes all the possible cases and combines them
+       } else { // if the number is odd and within bounds it breaks out of the loop
+         break;
+       }
+      }
+      cout << "error: " << errorMessageCombiner << endl; // output prompt statment and error message as well as next input
+      errorMessageCombiner = "";
+      cout << "enter an odd size from 3 to 15: ";
+      cin >> inputSize;
+}
+  if (inputSize >= LOWER_BOUND && inputSize <= UPPER_BOUND) { // A check again once your input breaks out of the loop
+    if (inputSize % EVEN_CHECKER != ZERO) {
+      rowColumn = inputSize; // rowColumn then saves the valid inputted value
+      }
+  }
+  cout << endl;
+  
+// if Index is ever odd it is a * if not then it is a 0
+for (int index = COUNT_NUMBER; index <= (rowColumn * rowColumn); index++) { // This for loop creates the table and its maximum length is determined by the size of the input SQUARED
+  if (index % EVEN_CHECKER == ZERO) {
+    charOutput = "0 ";
+  } else {
+    charOutput = "* ";
+  }
+    count++; // Count keeps track of the iteration
+    cout << charOutput;
+    if (count % rowColumn == ZERO) { // if the count divided by the rowColumn is ever == 0 then it starts a new line that way the square is always equal on each side
+      cout << endl;
+    }
+}
+return 0;
+}

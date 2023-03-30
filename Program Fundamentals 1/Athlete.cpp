@@ -1,0 +1,169 @@
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+using namespace std;
+
+//Function prototypes declared
+double maximumValue(double[], int);
+double minimumValue(double[], int);
+
+//Constants defined
+const int NUMBER_OF_JUDGES = 10;
+const int MIN_SCORE = 0;
+const int MAX_SCORE = 10;
+const string FILE_NAME = "scorecard.txt";
+const int END_PROGRAM = 0;
+const int TENTHS_PLACE = 1;
+const int SUBSCRIPT_ADJUSTMENT = 1;
+
+int main()
+{
+    // Variables for Main Declared or initialized
+    string athleteFirstName;
+    string athleteLastName;
+    int amountOfScores = 0;
+
+    //Double Array Declaration For 10 Double Elements (Judge Scores)
+    double judgeScores[NUMBER_OF_JUDGES];
+
+    // Input Stream Datatype Object to Read File Name
+    ifstream inputFile;
+    
+    //File Object is assigned to argument and is opened with open member function
+    inputFile.open(FILE_NAME); 
+    
+    //Checks if the Input file was Read
+    while(!inputFile){ 
+
+        //String outputted if Inputted File Doesn't open
+        cout << "ERROR: the scorecard could not be opened" << endl;
+
+        //Ends Program Successfully
+        return 2;
+    
+    }
+
+    // Reads the First Line (First and Last Name)
+    inputFile >> athleteFirstName;
+    inputFile >> athleteLastName;
+
+    // Reads Input file and Fill Array with Elements and Puts Scores into Array
+    while (amountOfScores < NUMBER_OF_JUDGES && inputFile >> judgeScores[amountOfScores])
+    {
+
+        //Checks if Scores are in Range
+        if(judgeScores[amountOfScores] > MAX_SCORE || judgeScores[amountOfScores] < MIN_SCORE){
+            
+            //String Outputted if Scores out of Range
+            cout << "Invalid scores" << endl << athleteFirstName << " " << athleteLastName << " is disqualified" << endl;
+
+            
+            //Close Input file
+            inputFile.close();
+
+            //Exit/Ends Program Successfully
+            return 2;
+        }
+
+        //Increment Amount of Scores
+        amountOfScores++;
+    
+    }
+    
+    // Errorchecking if the amountOfScores is != (not equal) to the NUMBER_OF_JUDGES
+    if(amountOfScores != NUMBER_OF_JUDGES){
+        
+        //String Outputted if not Enough Scores
+        cout << "Insufficient scores" << endl << athleteFirstName << " " << athleteLastName  << " is disqualified" << endl;
+        
+        //Close Input file
+        inputFile.close();
+
+        //Exit Successfully and End Program
+        return 2;
+    }
+     
+    //Calls the Appropriate Functions and Finds the Minimum and Maximum Score from The Amount Of judgeScores
+    double lowestScore = minimumValue(judgeScores, amountOfScores);
+    double highestScore = maximumValue(judgeScores, amountOfScores);
+
+    // Start of Console Output: "First" and "Last Name" "'s results:" strings
+    cout << athleteFirstName << " " << athleteLastName << "'s results:" << endl;
+
+    //Variables for the Next For Loop for Console Output
+    int specificScore = 0;
+    double sumOfScores = 0;
+    int countOfScore = 0;
+    
+    //Sets up Decimal Format for Console Output
+    cout << fixed << setprecision(TENTHS_PLACE);
+
+    //Read/Iterate Through the Array - Basically List all of the Scores
+    for(; specificScore < amountOfScores; specificScore++){
+
+        //Error Checking if the specificScores are not the lowest or highest ones in the array
+        if(judgeScores[specificScore] != lowestScore && judgeScores[specificScore] != highestScore){
+
+            //Calculate the sumOfScores
+            sumOfScores += judgeScores[specificScore];
+
+            //Increment countOfScore
+            countOfScore++;
+        }
+
+        //Outputs to console each Score
+        if(specificScore != amountOfScores - SUBSCRIPT_ADJUSTMENT)
+            cout << judgeScores[specificScore] << ", ";
+        else
+            cout << judgeScores[specificScore];
+    }
+
+    
+    //Outputs String of Highest and Lowest Score
+    cout << endl << "The highest score of " << highestScore << " and the lowest score of "<< lowestScore << " were \n" << "dropped" << endl;
+    
+    //Outputs String of Average Score
+    cout << fixed << setprecision(2) <<"The average score is " << sumOfScores / countOfScore << endl;
+
+    //Close member function for inputFile Stream Object
+    inputFile.close();
+
+    //End Program
+    return END_PROGRAM;
+}
+
+// Gets The Maximum Score from The judgeScores Array
+double maximumValue(double judgeScores[], int scoreSize){
+
+    //Variables Defined and Initialized
+    int maximum = 0;
+    int specificScore = 0;
+
+     // Reads & Iterate Through The judgeScores Array to Find the Maximum
+    for(; specificScore < scoreSize; specificScore++){
+        if(judgeScores[specificScore] > judgeScores[maximum]){
+            maximum = specificScore;
+        }
+    }
+    // Return The Maximum Score
+    return judgeScores[maximum];
+}
+
+//Find The Min Score from The judgeScores Array
+double minimumValue(double judgeScores[], int scoreSize){
+
+    //Variables Defined and Initialized
+    int minimum = 0;
+    int specificScore = 0;
+
+    // Reads & Iterate Through the judgeScores Array to Find the Minimum
+    for(;specificScore < scoreSize; specificScore++){
+        if(judgeScores[specificScore] < judgeScores[minimum]){
+            minimum = specificScore;
+        }
+    }
+    // Return The Minimum Score
+    return judgeScores[minimum];
+}
+
+

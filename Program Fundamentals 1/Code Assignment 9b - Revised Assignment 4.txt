@@ -1,0 +1,171 @@
+CONSOLE OUTPUT/TESTING RESULTS: 
+
+What would you like to buy?
+1. Bread
+2. Milk
+3. Soap
+
+Please enter your choice: 1
+Please enter the price: $2.85
+Please enter your age: 22
+
+
+
+        Invoice
+Price:         $2.85
+Tax:           $0.00
+Total:         $2.85
+
+-----------------------
+
+What would you like to buy?
+1. Bread
+2. Milk
+3. Soap
+
+Please enter your choice: 3
+Please enter the price: $1.65
+Please enter your age: 45
+
+
+
+        Invoice
+Price:         $1.65
+Tax:           $0.13
+Total:         $1.78
+
+-----------------------
+
+What would you like to buy?
+1. Bread
+2. Milk
+3. Soap
+
+Please enter your choice: 2
+Please enter the price: $3.25
+Please enter your age: 60
+
+
+
+        Invoice
+Price:         $3.25
+Tax:           $0.00
+Discount:      $-0.16
+Total:         $3.09
+
+-----------------------
+
+What would you like to buy?
+1. Bread
+2. Milk
+3. Soap
+
+Please enter your choice: 3
+Please enter the price: $1.65
+Please enter your age: 81
+
+
+
+        Invoice
+Price:         $1.65
+Tax:           $0.13
+Discount:      $-0.09
+Total:         $1.69
+
+------------------------
+
+What would you like to buy?
+1. Bread
+2. Milk
+3. Soap
+Please enter your choice: 5
+Sorry, 5 wasn't a valid choice
+
+C++ SOURCE CODE:
+
+//Invoice.cpp: This program calculates the Grocery Invoice from given inputs
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 12/3/21
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+int main() {
+
+//Declaring Variables
+
+int decision(0);
+int age(0);
+double price(0.00); 
+double tax(0.00);
+double discount(0.00);
+double finalTotal(0.00);
+const int LEFT_BOUND(1);
+const int RIGHT_BOUND(3);
+const int THIRD_CHOICE(3);
+const int MINIMUM_AGE(60);
+const int END_PROGRAM(0);
+const int TWO_DECIMAL_PLACES(2);
+const int MARGIN_ONE(8);
+const int MARGIN_TWO(10);
+const int MARGIN_THREE(12);
+const int MARGIN_FOUR(15);
+const double TAX_RATE(0.08);
+const double DISCOUNT_RATE(0.05);
+const string DECISION_ONE("1. Bread");
+const string DECISION_TWO("2. Milk");
+const string DECISION_THREE("3. Soap");
+
+  
+    //User input for choice + prompt
+    cout << "What would you like to buy?" << endl;
+    cout << DECISION_ONE << "\n" << DECISION_TWO << "\n" << DECISION_THREE << endl;
+    cout << "Please enter your choice: ";
+    cin >> decision;
+      
+    //error checking
+    if(decision < LEFT_BOUND || decision > RIGHT_BOUND) {
+       cout << "Sorry, " << decision << " wasn't a valid choice";
+       return END_PROGRAM;
+    }
+    
+    //User input for price + prompt
+    cout << "Please enter the price: $";
+    cin >> price;
+    
+    //User input for age + prompt
+    cout << "Please enter your age: ";
+    cin >> age;
+    
+    //Generation of Invoice Title
+    cout << endl << setw(MARGIN_FOUR) << "Invoice" << endl;
+    
+    if(decision == THIRD_CHOICE) {
+        tax = TAX_RATE * price;
+    }
+    
+    //Condition Calculation for Uniquely Taxed Good
+    finalTotal = price + tax;
+    
+    //Condition Calculation for Unique Circumstance - Old Age.
+    if(age >= MINIMUM_AGE) {
+        discount = DISCOUNT_RATE * finalTotal;
+    
+    }
+    
+    //Generation of Rest of Invoice
+    finalTotal -= discount;
+    
+    cout << setprecision(TWO_DECIMAL_PLACES) << fixed << "Price:" << setw(MARGIN_TWO) << "$" << price << endl;
+    cout << setprecision(TWO_DECIMAL_PLACES) << fixed <<"Tax:" << setw(MARGIN_THREE) << "$" << tax << endl;
+    
+    if(age >= MINIMUM_AGE) {
+        cout << setprecision(TWO_DECIMAL_PLACES) << fixed << "Discount:" << setw(MARGIN_ONE) << "$-" << discount << endl;
+    }
+    
+    cout << setprecision(TWO_DECIMAL_PLACES) << fixed << "Total:" << setw(MARGIN_TWO) << "$" << finalTotal << endl;
+return END_PROGRAM;
+}

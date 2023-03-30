@@ -1,0 +1,373 @@
+CONSOLE OUTPUT/TESTING RESULTS: 
+What would you like to buy?
+1. Bread:
+2. Milk:
+3. Soap:
+4. Eggs:
+5. Deodorant:
+6. Juice:
+7. Chips:
+8. Forks:
+9. Spoons:
+10. Cups:
+Please enter choice: 0
+Sorry, 0 wasn't a valid choice
+Please enter choice: 11
+Sorry, 11 wasn't a valid choice
+Please enter choice: 10
+Please enter price: 5.95
+Please enter age: 60
+
+     Invoice
+Cups:          $5.95
+Tax:           $0.48
+Discount:      $-0.30
+Total:         $6.13
+
+--------------------------
+
+What would you like to buy?
+1. Bread:
+2. Milk:
+3. Soap:
+4. Eggs:
+5. Deodorant:
+6. Juice:
+7. Chips:
+8. Forks:
+9. Spoons:
+10. Cups:
+Please enter choice: 6
+Please enter price: 3.50
+Please enter age: 21
+
+     Invoice
+Juice:         $3.50
+Tax:           $0.00
+Total:         $3.50
+
+--------------------------
+
+What would you like to buy?
+1. Bread:
+2. Milk:
+3. Soap:
+4. Eggs:
+5. Deodorant:
+6. Juice:
+7. Chips:
+8. Forks:
+9. Spoons:
+10. Cups:
+Please enter choice: 3
+Please enter price: -1
+Sorry, -1 wasn't a valid price
+Please enter price: 3.50
+Please enter age: -4
+Sorry, -4 wasn't a valid age
+Please enter age: 490  0
+
+     Invoice
+Soap:          $3.50
+Tax:           $0.28
+Total:         $3.78
+
+--------------------------
+
+What would you like to buy?
+1. Bread:
+2. Milk:
+3. Soap:
+4. Eggs:
+5. Deodorant:
+6. Juice:
+7. Chips:
+8. Forks:
+9. Spoons:
+10. Cups:
+Please enter choice: 6
+Please enter price: -6.00
+Sorry, -6.00 wasn't a valid price
+Please enter price: 3 3 400  .00
+Please enter age: -21
+Sorry, -21 wasn't a valid age
+Please enter age: 75
+
+     Invoice
+Juice:         $4.00
+Tax:           $0.00
+Discount:      $-0.20
+Total:         $3.80
+
+--------------------------
+
+
+
+C++ SOURCE CODE:
+
+//Invoice2.cpp: This program calculates the Grocery Invoice from Given Inputs With Functions And Displays the Menus for it.
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 10/30/21
+#include <iostream>
+#include <string>
+#include <iomanip>
+#include <cstdlib>
+#include <cmath>
+using namespace std;
+
+/*Global Constants Initialized.*/
+const double TAX_RATE(0.08);
+const double DISCOUNT_FOR_SENIORS(0.05);
+
+/*Function Prototypes.*/
+    /*For Selecting the Item Name Display
+    for the Invoice Output.*/
+    string itemDecision(int);
+    
+    /*For User Inputted Integer Values
+    like Age and Decision of Item.*/
+    int inputInteger(int);
+    
+    /*For User Inputted Floating/Double Values.*/
+    double doubleInput(double);
+    
+    /*For Error Checking if Tax Can be Applied.*/
+    bool taxableCheck(int);
+    
+    /*For Full Invoice Output based on
+    Choice, Age, and Price
+    to make the Total also.*/
+    void outputInvoice(int, string, double, int);
+    
+    /*Main Function.*/
+    int main() {
+        
+        /*Main Variables and Constants Intialized or Declared.*/
+        int decisionDisplay;
+        int integerChecker;
+        int ageDisplay;
+        double priceDisplay;
+        string itemSelected;
+        const double LEFT_BOUND(1.00), RIGHT_BOUND(10.00);
+        const int INTEGER_FORMAT(0);
+        const int INTEGER_DEFINITION(1);
+        const double DOUBLE_FORMAT(0.00);
+        const int DOUBLE_PRECISION(2);
+        const double NEGATIVE_CHECKER(0.00);
+        
+        
+            /*Basic Menu Printed.*/
+            cout << "What would you like to buy?" << endl;
+            cout << "1. Bread:\n2. Milk:\n3. Soap:\n4. Eggs:\n5. Deodorant:\n6. Juice:\n7. Chips:\n8. Forks:\n9. Spoons:\n10. Cups:" << endl;
+            
+                /*While loop for Choice + Error Checking - Call to Related Function.*/
+                while (true) {
+                    cout << "Please enter choice: ";
+                    decisionDisplay = inputInteger(INTEGER_FORMAT);
+                    
+                    /*Nested if and else statements for error checking.*/
+                    if(decisionDisplay < double(LEFT_BOUND) || decisionDisplay > double(RIGHT_BOUND)) {
+                        cout << "Sorry, " << decisionDisplay << " wasn't a valid choice\n";
+                    } 
+                    else {
+                        break;
+                    }
+                }
+                    /*Price Input/Display - Call to Related Function.*/
+                while(true) {
+                    cout << "Please enter price: ";
+                    priceDisplay = doubleInput(DOUBLE_FORMAT);
+                    
+                    /* Error Checking Data Value */
+                    if (priceDisplay < NEGATIVE_CHECKER) {
+                        cout << fixed << setprecision(DOUBLE_PRECISION)<< "Sorry, " << priceDisplay << " wasn't a valid price\n";
+                    }
+                    
+                    else {
+                        break;
+                    }
+                }
+                    /*Age Input/Display - Call to Related Function.*/
+                while(true) {
+                    cout << "Please enter age: ";
+                    ageDisplay = inputInteger(INTEGER_FORMAT);
+                    
+                    /* Error Checking Data Value */
+                    integerChecker = ageDisplay/INTEGER_DEFINITION;
+                    if (integerChecker >= NEGATIVE_CHECKER && integerChecker * INTEGER_DEFINITION == integerChecker) {
+                        break;
+                    }
+                
+                    else {
+                        cout << "Sorry, " << ageDisplay << " wasn't a valid age\n";
+                    }
+                }
+                    
+                    /* Final Output for Invoice */
+                    itemSelected = itemDecision(decisionDisplay);
+                    outputInvoice(decisionDisplay, itemSelected, priceDisplay, ageDisplay);
+        return 0;
+    }
+    
+    /*Function for Invoice String Output for Specific Item 
+    (Bread, Milk, Soap, Eggs, Deodorant, 
+    Juice, Chips, Forks, Spoons, and Cups).*/
+    
+        string itemDecision(int decision) {
+        string decisionString = "";
+            switch (decision) {
+            case 1:
+                decisionString = "Bread:";
+                break;
+            case 2:
+                decisionString = "Milk:";
+                break;
+            case 3:
+                decisionString = "Soap:";
+                break;
+            case 4:
+                decisionString = "Eggs:";
+                break;
+            case 5:
+                decisionString = "Deoderant:";
+                break;
+            case 6:
+                decisionString = "Juice:";
+                break;
+            case 7:
+                decisionString = "Chips:";
+                break;
+            case 8:
+                decisionString = "Forks:";
+                break;
+            case 9:
+                decisionString = "Spoons:";
+                break;
+            case 10:
+                decisionString = "Cups:";
+                break;
+            }
+    
+        return decisionString;
+        cout << endl;
+        }
+    
+        /* Function for Status of Item's Tax Application
+        - It is true if it is taxable
+        and false if not taxable */
+    
+        bool taxableCheck(int decision) {
+            switch (decision) {
+            case 1:
+                return false;
+                break;
+            case 2:
+                return false;
+                break;
+            case 3:
+                return true;
+                break;
+            case 4:
+                return false;
+                break;
+            case 5:
+                return true;
+                break;
+            case 6:
+                return false;
+                break;
+            case 7:
+                return false;
+                break;
+            case 8:
+                return true;
+                break;
+            case 9:
+                return true;
+                break;
+            case 10:
+                return true;
+                break;
+            }
+            return decision;
+        }
+        
+        /*Function for Integer Inputs.*/
+        int inputInteger(int intInp) {
+            double integerChecker;
+            const int INTEGER_DEFINITION(1);
+            const int NEGATIVE_CHECKER(0);
+                cin >> intInp;
+                
+                /*Data Type Error Checking*/
+                integerChecker = intInp/INTEGER_DEFINITION;
+                if (integerChecker >= NEGATIVE_CHECKER && integerChecker/ round(intInp) != integerChecker) {
+                return intInp;
+                }
+                
+                else {
+                    return intInp;
+                }
+            
+        }
+        
+        /*Function for Double Inputs.*/
+        double doubleInput(double priceInp) {
+            const double NEGATIVE_CHECKER(0.00);
+            cin >> priceInp;
+            
+            /*Data Type Error Checking*/
+            if (priceInp > NEGATIVE_CHECKER) {
+                return priceInp;
+            }
+            
+            else {
+                return priceInp;
+            }
+            
+        }
+    
+        /*Function for Invoice Output and Calculation.*/
+        void outputInvoice(int choiceOutput, string itemOutput, double priceOutput, int ageOutput) {
+            
+            /*Declared and/or Initialized Variables & Constants.*/
+            double discountOutput(0.00), taxOutput(0.00);
+            const int MINIMUM_DISCOUNT_AGE(60);
+            const int WIDTH_SPACE_1(12), WIDTH_SPACE_2(15);
+            const int DECIMAL_FORMAT(2);
+            
+            /*Error Checking for Age Discount and Outputs it.*/
+            if (ageOutput >= MINIMUM_DISCOUNT_AGE) {
+                discountOutput = DISCOUNT_FOR_SENIORS * priceOutput;
+            }
+            
+            /*Error Checking for Tax Application and Outputs it.*/
+            if (taxableCheck(choiceOutput)) {
+                taxOutput = TAX_RATE * priceOutput;
+                cout << "\n" << setw(WIDTH_SPACE_1) << "Invoice" << "\n";
+                cout << fixed << setprecision(DECIMAL_FORMAT);
+                cout << left << setw(WIDTH_SPACE_2) << itemOutput << "$" << priceOutput << "\n";
+                cout << left << setw(WIDTH_SPACE_2) << "Tax:" << "$" << taxOutput << "\n";
+            }
+            else {
+                cout << "\n" << setw(WIDTH_SPACE_1) << "Invoice" << "\n";
+                cout << fixed << setprecision(DECIMAL_FORMAT);
+                cout << left << setw(WIDTH_SPACE_2) << itemOutput << "$" << priceOutput << "\n";
+                cout << left << setw(WIDTH_SPACE_2) << "Tax:" << "$" << taxOutput << "\n";    
+            }
+            
+            /*Error Checking if Discount Exists and Outputs it.*/
+            if (ageOutput >= MINIMUM_DISCOUNT_AGE) {
+                cout << left << setw(WIDTH_SPACE_2) << "Discount:" << "$-" << discountOutput << "\n";
+            }
+            
+            /*Total Display and Calculation Output.*/
+                cout << left << setw(WIDTH_SPACE_2) << "Total:" << "$" << priceOutput + taxOutput - discountOutput << "\n\n";
+                cout << "--------------------------\n";
+            
+        }
+    
+
+
+

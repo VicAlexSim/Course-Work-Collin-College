@@ -1,0 +1,199 @@
+CONSOLE OUTPUT/TESTING RESULTS:
+
+DNA sequence analysis:
+29782 nucleotides in the sequence
+
+Sequence breakdown:
+Adenine:  8892       29.86%
+Thymine:  9581       32.17%
+Cytosine: 5462       18.34%
+Guanine:  5847       19.63%
+
+C++ SOURCE CODE:
+
+/*CovidDNASequence2.cpp: This Program Calculates The Amount, Percentage, 
+	and Type of Nucleotides from a Given Input File of a DNA Sequence 
+	(Covid Strain) and Outputs it into an Output File*/
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 11/6/21
+
+
+/* Headers Included. */
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <cmath>
+
+using namespace std;
+
+
+/* This function (counting) reads the DNA sequence from a given filename and
+computes counts for each nucleotide. The function returns true if the
+operation was successful and false otherwise. */
+
+bool counting(string filename, int& sumNucleotides, int& countAdenine, int& countThymine, int& countCytosine, int& countGuanine) {
+
+    /* Variable Declared and Initialized. */
+	char charPlaceholder = 'z';
+	
+	
+	/* File Object Made. */
+	ifstream fileInputted;
+	
+	/* Input File Opened With Pass Through .txt File From First Parameter - see Function Main. */
+	fileInputted.open(filename);
+	
+	/* Error checking if Input file is opened or not. Returns false if not. */
+	if (fileInputted.fail()) {
+		cout << "Error: in opening input file\n";
+		return false;
+	}
+
+    /* While Loop Counts Nucleotides For Each Type and Total Nucleotides Overall. */
+	while (fileInputted >> charPlaceholder) { /* If the Char is an A, Increment Count for Adenine and Count for Total. */
+		if (charPlaceholder == 'A') {        
+			countAdenine++;
+			sumNucleotides++;
+
+		}
+		else if (charPlaceholder == 'T') {  /* If the Char is an T, Increment Count for Thymine and Count for Total. */
+			countThymine++;
+			sumNucleotides++;
+
+		}	
+		else if (charPlaceholder == 'C') {  /* If The Char is an C, Increment Count for Cytosine and Count for Total. */
+			countCytosine++;
+			sumNucleotides++;
+
+		}	
+		else if (charPlaceholder == 'G') {  /* If The Char is an G, Increment Count for Guanine and Count for Total. */
+			countGuanine++;
+			sumNucleotides++;
+
+		}	
+		else {                             /*Error Checking if Other Chars are Found, Otherwise It Will Print an Error Message. */ 
+			cout << "Error: " << charPlaceholder << " is not a valid character\n";
+			return false;
+		}
+	}
+	
+	/*Closes Input File and Ends function.*/
+	fileInputted.close(); 
+	return true;
+}
+
+
+/* This function (formatLine) outputs a formatted line for a nucleotide to a given output
+stream. This function is the only place in the code that knows how the line
+is formatted. */
+void formatLine(ostream& output, double countNucleotides, int amountOfSpecificNucleotide, char abbrevNucleotide) {
+
+    /* Variables and Constants Declared and Initialized. */
+	const double PERCENTAGE_MAKER = 100.00;
+	string nucleotide;
+	int countOfSpecificNucleotide = 0;
+	const int TWO_DECIMAL_FORMATTER(2);
+	const int WIDTH_FORMAT_ONE = 7;
+	const int WIDTH_FORMAT_TWO = 6;
+	const int WIDTH_FORMAT_THREE = 11;
+
+    /* Identifies What Nucleotide to Use For the Line It Belongs to. */
+	if(abbrevNucleotide == 'A')
+	{
+		nucleotide = "Adenine";
+		countOfSpecificNucleotide = amountOfSpecificNucleotide;
+	}
+	else if(abbrevNucleotide =='T')
+	{
+		nucleotide = "Thymine";
+		countOfSpecificNucleotide = amountOfSpecificNucleotide;
+	}
+	else if(abbrevNucleotide == 'C')
+	{
+		nucleotide = "Cytosine";
+		countOfSpecificNucleotide = amountOfSpecificNucleotide;
+	}
+	else if(abbrevNucleotide =='G')
+	{
+		nucleotide = "Guanine";
+		countOfSpecificNucleotide = amountOfSpecificNucleotide;
+	}
+
+    /* Outputs the Sequence Breakdown That Includes Total of Each Nucleotide + Percentage in Format. */
+	if(nucleotide == "Adenine" || nucleotide == "Thymine" || nucleotide == "Guanine" ) { 
+        
+        /* File Output of Total Specific Nucleotides + Percentage + Strings. */	    
+	    output << nucleotide << ":  " << setw(WIDTH_FORMAT_ONE) << left << countOfSpecificNucleotide << "\t";
+        output << fixed << setprecision(TWO_DECIMAL_FORMATTER) << countOfSpecificNucleotide / countNucleotides * PERCENTAGE_MAKER  <<"%\n";
+        
+        /* Console Output of Total Specific Nucleotides + Percentage + Strings. */
+        cout << nucleotide << ":  " << setw(WIDTH_FORMAT_THREE) << left << countOfSpecificNucleotide;
+        cout << fixed << setprecision(TWO_DECIMAL_FORMATTER) << countOfSpecificNucleotide / countNucleotides * PERCENTAGE_MAKER  <<"%\n";
+	}
+	else if(nucleotide == "Cytosine") {
+	    
+	    /* File Output of Total Specific Nucleotides + Percentage + Strings. */	
+		output << nucleotide << ": " << setw(WIDTH_FORMAT_TWO) << left << countOfSpecificNucleotide << "\t" << fixed << setprecision(TWO_DECIMAL_FORMATTER) << countOfSpecificNucleotide / countNucleotides * PERCENTAGE_MAKER  <<"%\n";
+		
+		/* Console Output of Total Specific Nucleotides + Percentage + Strings. */
+		cout << nucleotide << ": " << setw(WIDTH_FORMAT_THREE) << left << countOfSpecificNucleotide << fixed << setprecision(TWO_DECIMAL_FORMATTER) << countOfSpecificNucleotide / countNucleotides * PERCENTAGE_MAKER  <<"%\n";
+	}
+	
+}
+
+/* This function (outputReport) outputs the entire report to a given output stream. This
+function calls function 2 (formatLine) to output a line for each nucleotide. */
+void outputReport (ostream& outputFile, int sumNucleotides, int countAdenine, int countThymine, int countCytosine, int countGuanine) {
+
+    /* Variables Declared and Initialized. */
+	char abbrevAdenine = 'A';
+	char abbrevThymine = 'T';
+	char abbrevCytosine = 'C';
+	char abbrevGuanine = 'G';
+	
+	    /* File Output of Total Nucleotides + Strings. */
+    	outputFile << "DNA sequence analysis:\n" << sumNucleotides <<" nucleotides in the sequence.\n";
+    	outputFile << "\nSequence breakdown:\n";
+    	
+    	/* Console Output of Total Nucleotides + Strings. */
+    	cout << "DNA sequence analysis:\n" << sumNucleotides <<" nucleotides in the sequence.\n";
+    	cout << "\nSequence breakdown:\n";
+    	
+    	/* Function 2 Calls + Arguments for Each Nucleotide. */
+    	formatLine(outputFile, sumNucleotides, countAdenine, abbrevAdenine);
+    	formatLine(outputFile, sumNucleotides, countThymine, abbrevThymine);
+    	formatLine(outputFile, sumNucleotides, countCytosine, abbrevCytosine);
+    	formatLine(outputFile, sumNucleotides, countGuanine, abbrevGuanine);
+
+}
+
+/* Main Function Calls Function 1 and 3 (Since Function 3 - outputReport - calls 2 - formatLine - already). Then Executes the Output File Creation and Closes It. */
+int main() {
+    
+    /* Variables Declared and Initialized. */
+	int sumNucleotides = 0;
+	int countAdenine = 0;
+	int countThymine = 0;
+	int countCytosine = 0;
+	int countGuanine = 0;
+
+        /* Output File Opened. */
+    	ofstream outputFile;
+    	outputFile.open("covid_output.txt");
+        
+        /*Function 1 call + arguments.*/
+    	counting("dnaSequence.txt", sumNucleotides, countAdenine, countThymine, countCytosine, countGuanine);
+        
+        /*Function 3 call + arguments.*/
+    	outputReport(outputFile, sumNucleotides, countAdenine, countThymine, countCytosine, countGuanine);
+    
+        /* Output File Closed. */
+    	outputFile.close();
+    	
+	
+    /* End Program. */
+	return 0;
+}

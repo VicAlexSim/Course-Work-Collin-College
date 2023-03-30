@@ -1,0 +1,85 @@
+CONSOLE OUTPUT/TESTING RESULTS:
+
+Enter a number of values from 2 to 10: 0
+Invalid input!
+Enter a number of values from 2 to 10: 12
+Invalid input!
+Enter a number of values from 2 to 10: 7
+Enter value 1: 7
+Enter value 2: 6
+Enter value 3: 54
+Enter value 4: 15
+Enter value 5: 3
+Enter value 6: 8
+Enter value 7: 2
+The average is 13.571
+
+------------------------
+
+Enter a number of values from 2 to 10: 5
+Enter value 1: 48
+Enter value 2: 61
+Enter value 3: 13
+Enter value 4: 10
+Enter value 5: 4
+The average is 26.800
+
+C++ SOURCE CODE:
+
+//AverageOfInputtedIntegerValues.cpp: This Program Calculates the Average/Mean of a Defined/Inputted Maximum of X Values and Asks for Their Y Points to be Inputted
+//Name: Victor Sim
+//Class Section: Online COSC 1436 (Programming Fundamentals 1)
+//Date: 10/9/21
+
+#include <iostream>
+#include<iomanip>
+using namespace std;
+
+int main()
+
+{
+    //Initialize and assign Variables & Constants to meaningful values
+    int inputtedMaximumOfX;
+    int startingPoint;
+    double summation(0);
+    double mean;
+    double yDataValue;
+    const int INCREMENT_FOR_DATA_POINT_DISPLAY(1);
+    const int MAX_RANGE_NUMBER(10);
+    const int MIN_RANGE_NUMBER(2);
+    const int OUTPUT_PRECISION(3);
+
+        //Prompt User to Enter Maximum Number of Data Values with Formatted Output.
+        cout << "Enter a number of values from " << MIN_RANGE_NUMBER << " to " << MAX_RANGE_NUMBER << ": ";
+        cin >> inputtedMaximumOfX;
+    
+        //Validate If User's Inputted Number is Within Range with A While Loop.
+        while (inputtedMaximumOfX > MAX_RANGE_NUMBER || inputtedMaximumOfX < MIN_RANGE_NUMBER)
+        {
+            //Formatted Output Displayed for Out of Bounds Inputted X Value to be Used as a Maximum.
+            cout << "Invalid input!" << endl;
+            cout << "Enter a number of values from " << MIN_RANGE_NUMBER << " to " << MAX_RANGE_NUMBER << ": ";
+            cin >> inputtedMaximumOfX;
+        }
+        //Initialize Counter Variable, Make Control Statement so Loop Terminates Eventually, Increment counter Variable for Control Statement.
+        for (long long int counting1 = startingPoint; counting1 < inputtedMaximumOfX; ++counting1)
+        {
+            //Formatted Output Displayed for Each X point, and User is Prompted to Input Their Y Points/Values to be Totaled up before Average Formula.
+            cout << "Enter value " 
+            << counting1 + INCREMENT_FOR_DATA_POINT_DISPLAY
+            << ": ";
+            cin >> yDataValue;
+            summation += yDataValue;
+        }
+        //Calculate The Average of The Y Points From The Sum of The Y Points Divided by The Inputted Max (X Point/Value) Used. 
+        mean = summation / inputtedMaximumOfX;
+        
+        //Output Displayed for Average in Format
+        cout << fixed
+        << setprecision(OUTPUT_PRECISION) 
+        << "The average is " 
+        << mean;
+
+    //Terminate Program
+    return 0;
+}
